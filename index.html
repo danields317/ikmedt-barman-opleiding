@@ -2,9 +2,40 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>hello world!</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
   </head>
   <body>
+    <a-scene>
+      <a-assets>
+        <a-image id="ground" src="https://www.sketchuptextureclub.com/public/texture_m/100-herringbone-parquet-texture-seamless.jpg">
+      </a-assets>
 
+
+      <a-plane color="#FFB04B" height="100" width="100" rotation="90 0 0" position="0 2.5 0"></a-plane>
+      <a-plane src="ground" color="#1E1005" height="100" width="100" rotation="-90 0 0"></a-plane>
+
+      <!-- <a-box color="#89441A" position="1.45 -2.5 -0.1" height="8" depth="3.05"></a-box> -->
+      <a-entity id="left corner walls" position="0.5 0 -1">
+        <a-entity position="0 0 5">
+          <a-box color="#FFB04B" position="1.5 -1 0" height="8" depth="5"></a-box>
+          <a-box color="#89441A" position="1.475 -2.75 0.025" height="8" width="1.05" depth="5.05"></a-box>
+        </a-entity>
+
+        <a-entity id="right corner walls" position="1 0 1.75" rotation="0 270 0">
+          <a-box color="#FFB04B" position="1.5 -1 0" height="8" depth="8"></a-box>
+          <a-box color="#89441A" position="1.475 -2.75 -0.025" height="8" width="1.05" depth="8.05"></a-box>
+        </a-entity>
+        <a-entity id="right corner walls" position="1 0 -3.75">
+          <a-box color="#FFB04B" position="1.5 -1 0" height="8" depth="5"></a-box>
+          <a-box color="#89441A" position="1.475 -2.75 -0.025" height="8" width="1.05" depth="5.05"></a-box>
+        </a-entity>
+
+        <a-box id="door" color="red" position="1.475 -1 1.87" height="8" depth="1.25"></a-box>
+        <a-box color="#FFB04B" position="1.5 -1 0" height="8" depth="2.5"></a-box>
+        <a-box color="#89441A" position="1.475 -2.75 -0.025" height="8" width="1.05" depth="2.55"></a-box>
+      </a-entity>
+
+    </a-scene>
   </body>
 </html>
