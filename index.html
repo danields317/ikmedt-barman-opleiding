@@ -8,32 +8,46 @@
   <body>
     <a-scene>
       <a-assets>
-        <a-image id="ground" src="https://www.sketchuptextureclub.com/public/texture_m/100-herringbone-parquet-texture-seamless.jpg">
       </a-assets>
+      <!--Ceiling-->
+      <a-plane color="#FFB04B" height="15" width="15" rotation="90 0 0" position="7 2.5 0"></a-plane>
+      <!--Floor-->
+      <a-plane color="#1E1005" height="100" width="100" rotation="-90 0 0"></a-plane>
 
+      <!--Frontwall-->
+      <a-entity class="wall" position="0 1.25 0">
+        <a-box color="#FFB04B" height="2.5" width="1" depth="11"></a-box>
+        <a-box color="#89441A" height="1.25" width="1.1" depth="11.1" position="0 -0.75 0"></a-box>
+      </a-entity>
 
-      <a-plane color="#FFB04B" height="100" width="100" rotation="90 0 0" position="0 2.5 0"></a-plane>
-      <a-plane src="ground" color="#1E1005" height="100" width="100" rotation="-90 0 0"></a-plane>
+      <!--EntranceWall-->
+      <a-entity class="wall" position="7 1.25 -5">
+        <a-box color="#FFB04B" height="2.5" width="15" depth="1"></a-box>
+        <a-box color="#89441A" height="1.25" width="15.1" depth="1.1" position="0 -0.75 0"></a-box>
+      </a-entity>
 
-      <!-- <a-box color="#89441A" position="1.45 -2.5 -0.1" height="8" depth="3.05"></a-box> -->
-      <a-entity id="left corner walls" position="0.5 0 -1">
-        <a-entity position="0 0 5">
-          <a-box color="#FFB04B" position="1.5 -1 0" height="8" depth="5"></a-box>
-          <a-box color="#89441A" position="1.475 -2.75 0.025" height="8" width="1.05" depth="5.05"></a-box>
-        </a-entity>
+      <!--CornerWall-->
+      <a-entity class="wall" position="4 1.25 5">
+        <a-box color="#FFB04B" height="2.5" width="3" depth="1"></a-box>
+        <a-box color="#89441A" height="1.25" width="3.1" depth="1.1" position="0 -0.75 0"></a-box>
+      </a-entity>
 
-        <a-entity id="right corner walls" position="1 0 1.75" rotation="0 270 0">
-          <a-box color="#FFB04B" position="1.5 -1 0" height="8" depth="8"></a-box>
-          <a-box color="#89441A" position="1.475 -2.75 -0.025" height="8" width="1.05" depth="8.05"></a-box>
-        </a-entity>
-        <a-entity id="right corner walls" position="1 0 -3.75">
-          <a-box color="#FFB04B" position="1.5 -1 0" height="8" depth="5"></a-box>
-          <a-box color="#89441A" position="1.475 -2.75 -0.025" height="8" width="1.05" depth="5.05"></a-box>
-        </a-entity>
+      <!--RightWall-->
+      <a-entity class="wall" position="5 1.25 6">
+        <a-box color="#FFB04B" height="2.5" width="1" depth="3"></a-box>
+        <a-box color="#89441A" height="1.25" width="1.1" depth="3.1" position="0 -0.75 0"></a-box>
+      </a-entity>
 
-        <a-box id="door" color="red" position="1.475 -1 1.87" height="8" depth="1.25"></a-box>
-        <a-box color="#FFB04B" position="1.5 -1 0" height="8" depth="2.5"></a-box>
-        <a-box color="#89441A" position="1.475 -2.75 -0.025" height="8" width="1.05" depth="2.55"></a-box>
+      <!--LeftWall-->
+      <a-entity class="wall" position="9.5 1.25 7">
+        <a-box color="#FFB04B" height="2.5" width="10" depth="1"></a-box>
+        <a-box color="#89441A" height="1.25" width="10.1" depth="1.1" position="0 -0.75 0"></a-box>
+      </a-entity>
+
+      <!--Backwall-->
+      <a-entity class="wall" position="15 1.25 1">
+        <a-box color="#FFB04B" height="2.5" width="1" depth="13"></a-box>
+        <a-box color="#89441A" height="1.25" width="1.1" depth="13.1" position="0 -0.75 0"></a-box>
       </a-entity>
 
     </a-scene>
