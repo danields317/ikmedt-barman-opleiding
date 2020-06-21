@@ -4,15 +4,21 @@
     <meta charset="utf-8">
     <title>hello world!</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="./javascript/lights.js"></script>
   </head>
   <body>
-    <a-scene>
+    <a-scene stats>
       <a-assets>
+        <a-mixin id="light" light="type:point; intensity:1; distance: 15; decay: 1;"></a-mixin>
+        <a-mixin id="red" light="color: #ff6e6e"></a-mixin>
+        <a-mixin id="white" light="color: #ffffff"></a-mixin>
+        <a-mixin id="blue" light="color: #737eff"></a-mixin>
+        <a-mixin id="button" geometry="primitive: box; height: 0.2: ; depth: 0.1; width: 0.4"></a-mixin>
       </a-assets>
       <!--Ceiling-->
-      <a-plane color="#FFB04B" height="15" width="15" rotation="90 0 0" position="7 2.5 0"></a-plane>
+      <a-plane material="color: #FFB04B; roughness: 0.8; metalness: 0.15" height="15" width="15" rotation="90 0 0" position="7 2.5 0"></a-plane>
       <!--Floor-->
-      <a-plane color="#1E1005" height="100" width="100" rotation="-90 0 0"></a-plane>
+      <a-plane material="color: #1E1005; roughness: 0.8; metalness: 0.15" height="100" width="100" rotation="-90 0 0"></a-plane>
 
       <!--Frontwall-->
       <a-entity class="wall" position="0 1.25 0">
@@ -51,11 +57,40 @@
       </a-entity>
 
       <a-entity id="bar" position="11 0.6 -1">
-        <a-box color="#402918" height="1.2" width="1" depth="7"></a-box>
+        <a-box material="color: #402918; roughness: 1; metalness: 0.15" height="1.2" width="1" depth="7"></a-box>
       </a-entity>
 
-      <a-light type="point" color="white" position="7 2.5 0" intensity="0.5"></a-light>
+      <a-entity position="12 2.5 2">
+        <a-cone radius-bottom="0.25" radius-top="0" height="0.25" color="grey"></a-cone>
+        <a-sphere radius="0.1" position="0 -0.12 0" color="white">
+          <a-entity class="bulb" mixin="white light" position="0 -0.5 0"></a-entity>
+        </a-sphere>
+      </a-entity>
 
+      <a-entity position="4 2.5 2">
+        <a-cone radius-bottom="0.25" radius-top="0" height="0.25" color="grey"></a-cone>
+        <a-sphere radius="0.1" position="0 -0.12 0" color="white">
+          <a-entity class="bulb" mixin="white light" position="0 -0.5 0"></a-entity>
+        </a-sphere>
+      </a-entity>
+
+      <a-entity id="lightswitch" position="12.5 1.6 -4.49">
+        <a-plane color="grey" height="0.8" width="0.6">
+          <a-entity class="button" mixin="button" material="color: red" position="0 0.25 0.05">
+
+          </a-entity>
+          <a-entity class="button" mixin="button" material="color: white" position="0 0 0.05">
+
+          </a-entity>
+          <a-entity  class="button" mixin="button" material="color: blue" position="0 -0.25 0.05">
+
+          </a-entity>
+        </a-plane>
+      </a-entity>
+
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
 
     </a-scene>
   </body>
