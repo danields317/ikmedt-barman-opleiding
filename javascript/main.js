@@ -3,20 +3,32 @@ const handStatusEnum = {
   EMPTY: 1,
   HOLDGLASS: 2
 }
-
+const recipes = {
+  gin: ["gin"],
+  vodka: ["vodka"],
+  martini: ["martini"],
+  tonic: ["tonic", "tonic", "tonic"],
+  gin_tonic: ["gin", "tonic"],
+  vodka_martini: ["vodka", "martini"],
+  vodka_tonic: ["vodka", "tonic"]
+}
 let handStatus = handStatusEnum.PUT;
 let selectedLiquor;
 let liquorColor = "#ffffff";
 let glassContent = [];
+let currentOrder = recipes.gin
 
 window.onload = () => {
   const sceneEl = document.querySelector('a-scene');
   const camera = document.querySelector('a-camera');
   const buttons = sceneEl.querySelectorAll(".button");
   const coasters = sceneEl.querySelectorAll(".js--coaster");
+  const bell = sceneEl.querySelector("#bell");
   let taps = sceneEl.querySelectorAll(".tap");
   let glass = sceneEl.querySelector('#js--glass');
   let bulbs = sceneEl.querySelectorAll(".bulb");
+
+  camera.object3D.position.set(12, 1.6, -2);
 
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", function(event){
@@ -57,6 +69,31 @@ window.onload = () => {
       }
     })
   }
+
+  bell.addEventListener("click", function(event){
+    if (selectedLiquor == "js--done") {
+      console.log(glassContent);
+      console.log(currentOrder);
+      let correct = true;
+      for (var i = 0; i < glassContent.length; i++) {
+        if (currentOrder.includes(glassContent[i])) {
+          continue;
+        } else {
+          correct = false;
+          break;
+        }
+      }
+      if (glassContent.length != currentOrder.length) {
+        correct = false;
+      }
+      if (correct) {
+        sceneEl.appendChild(createCustomer())
+        console.log("you did it");
+      } else {
+        console.log("idiot");
+      }
+    }
+  })
 
   //pickup glass
   glass.addEventListener("click", function(event){
@@ -120,6 +157,21 @@ createLiquor = (height, y, color) => {
   liquor.setAttribute("radius", "0.09");
   liquor.object3D.position.set(0, y, 0);
   return liquor;
+}
+
+createCustomer = () => {
+  let customer = document.createElement('a-entity');
+  let head = document.createElement('a-entity');
+  let body = document.createElement('a-entity');
+  head.setAttribute("mixin", "customerHead");
+  head.setAttribute("position", "0 1.7 0");
+  body.setAttribute("mixin", "customerBody");
+  body.setAttribute("position", "0 0.7 0");
+  customer.appendChild(head);
+  customer.appendChild(body);
+  customer.setAttribute("animation__2", {property: "position", to: "10 0 -1.8", dur: "5000", easing: "easeOutQuad"})
+  customer.setAttribute("position", "-1 0 7");
+  return customer;
 }
 
 function blendColors(colorA, colorB, amount) {
