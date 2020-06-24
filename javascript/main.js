@@ -3,6 +3,7 @@ const handStatusEnum = {
   EMPTY: 1,
   HOLDGLASS: 2
 }
+
 let handStatus = handStatusEnum.PUT;
 let selectedLiquor;
 let liquorColor = "#ffffff";
@@ -30,7 +31,7 @@ window.onload = () => {
         switch (selectedLiquor) {
           case "js--gin":
             glassContent.push("gin");
-            newliquorColor = "#ff1100"
+            newliquorColor = "#80f6ff"
             break;
           case "js--vodka":
             glassContent.push("vodka")
@@ -42,7 +43,7 @@ window.onload = () => {
             break;
           case "js--tonic":
             glassContent.push("tonic")
-            newliquorColor = "#ffffff"
+            newliquorColor = "#ffff75"
             break;
           default:
             return;
