@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>hello world!</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="./javascript/lights.js"></script>
+    <script src="./javascript/main.js"></script>
   </head>
   <body>
     <a-scene stats>
@@ -14,6 +14,9 @@
         <a-mixin id="white" light="color: #ffffff"></a-mixin>
         <a-mixin id="blue" light="color: #737eff"></a-mixin>
         <a-mixin id="button" geometry="primitive: box; height: 0.2: ; depth: 0.1; width: 0.4"></a-mixin>
+        <a-mixin id="metal" material="color: #caccce; roughness: 0.5; metalness: 0.8;"></a-mixin>
+        <a-mixin id="glass" material="side: double; color: #63cee0; transparent: true; opacity: 0.4"></a-mixin>
+        <a-mixin id="coaster" geometry="primitive: cylinder; height: 0.005; radius: 0.15" material="color: green; shader: flat;"></a-mixin>
       </a-assets>
       <!--Ceiling-->
       <a-plane material="color: #FFB04B; roughness: 0.8; metalness: 0.15" height="15" width="15" rotation="90 0 0" position="7 2.5 0"></a-plane>
@@ -56,10 +59,6 @@
         <a-box color="#89441A" height="1.25" width="1.1" depth="13.1" position="0 -0.75 0"></a-box>
       </a-entity>
 
-      <a-entity id="bar" position="11 0.6 -1">
-        <a-box material="color: #402918; roughness: 1; metalness: 0.15" height="1.2" width="1" depth="7"></a-box>
-      </a-entity>
-
       <a-entity position="12 2.5 2">
         <a-cone radius-bottom="0.25" radius-top="0" height="0.25" color="grey"></a-cone>
         <a-sphere radius="0.1" position="0 -0.12 0" color="white">
@@ -74,16 +73,55 @@
         </a-sphere>
       </a-entity>
 
+      <a-entity position="8 2.5 -3">
+        <a-cone radius-bottom="0.25" radius-top="0" height="0.25" color="grey"></a-cone>
+        <a-sphere radius="0.1" position="0 -0.12 0" color="white">
+          <a-entity class="bulb" mixin="white light" position="0 -0.5 0"></a-entity>
+        </a-sphere>
+      </a-entity>
+
+      <a-entity id="bar" position="11 0.6 -1">
+        <a-box material="color: #402918; roughness: 1; metalness: 0.15" height="1.2" width="1" depth="7"></a-box>
+      </a-entity>
+
       <a-entity id="lightswitch" position="12.5 1.6 -4.49">
         <a-plane color="grey" height="0.8" width="0.6">
-          <a-entity class="button" mixin="button" material="color: red" position="0 0.25 0.05"></a-entity>
-          <a-entity class="button" mixin="button" material="color: white" position="0 0 0.05"></a-entity>
-          <a-entity  class="button" mixin="button" material="color: blue" position="0 -0.25 0.05"></a-entity>
+          <a-entity class="clickable button" mixin="button" material="color: red" position="0 0.25 0.05"></a-entity>
+          <a-entity class="clickable button" mixin="button" material="color: white" position="0 0 0.05"></a-entity>
+          <a-entity  class="clickable button" mixin="button" material="color: blue" position="0 -0.25 0.05"></a-entity>
         </a-plane>
       </a-entity>
 
-      <a-camera>
-        <a-cursor></a-cursor>
+      <a-entity position="11 1.25 -3">
+        <a-box mixin="metal" width="0.4" height="0.1" depth="1.4" mixin="metal">
+          <a-box mixin="metal" width="0.1" height="0.6" depth="0.1" position="-0.15 0.2 0.5">
+            <a-box class="tap clickable" color="red" width="0.1" height="0.1" depth="0.1" position="0 0.4 0"></a-box>
+          </a-box>
+          <a-box mixin="metal" width="0.1" height="0.6" depth="0.1" position="-0.15 0.2 0.2">
+            <a-box class="tap clickable" color="red" width="0.1" height="0.1" depth="0.1" position="0 0.4 0"></a-box>
+          </a-box>
+          <a-box mixin="metal" width="0.1" height="0.6" depth="0.1" position="-0.15 0.2 -0.2">
+            <a-box class="tap clickable" color="red" width="0.1" height="0.1" depth="0.1" position="0 0.4 0"></a-box>
+          </a-box>
+          <a-box mixin="metal" width="0.1" height="0.6" depth="0.1" position="-0.15 0.2 -0.5">
+            <a-box class="tap clickable" color="red" width="0.1" height="0.1" depth="0.1" position="0 0.4 0"></a-box>
+          </a-box>
+        </a-box>
+      </a-entity>
+
+      <a-entity id="js--glass" position="11 1.35 -1">
+        <a-cylinder class="clickable" mixin="glass" height="0.3" radius="0.1" open-ended="true"></a-cylinder>
+      </a-entity>
+
+      <a-entity id="js--done"class="js--coaster clickable" mixin="coaster" position="11 1.2 -1"></a-entity>
+      <a-entity id="js--gin" class="js--coaster clickable" mixin="coaster" position="11 1.3 -2.5"></a-entity>
+      <a-entity id="js--vodka"class="js--coaster clickable" mixin="coaster" position="11 1.3 -2.8"></a-entity>
+      <a-entity id="js--martini" class="js--coaster clickable" mixin="coaster" position="11 1.3 -3.2"></a-entity>
+      <a-entity id="js--tonic"class="js--coaster clickable" mixin="coaster" position="11 1.3 -3.5"></a-entity>
+
+
+      <a-camera position="12 1.6 -2">
+        <a-cursor raycaster="objects: .clickable"></a-cursor>
       </a-camera>
 
     </a-scene>
