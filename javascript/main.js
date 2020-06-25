@@ -4,19 +4,23 @@ const handStatusEnum = {
   HOLDGLASS: 2
 }
 const recipes = {
-  gin: ["gin"],
-  vodka: ["vodka"],
-  martini: ["martini"],
   tonic: ["tonic", "tonic", "tonic"],
+  vodka: ["vodka"],
   gin_tonic: ["gin", "tonic"],
+  martini: ["martini"],
   vodka_martini: ["vodka", "martini"],
+  gin: ["gin"],
   vodka_tonic: ["vodka", "tonic"]
 }
-let handStatus = handStatusEnum.PUT;
-let selectedLiquor;
+let recipeOptions = Object.keys(recipes)
+let handStatus = handStatusEnum.EMPTY;
+let selectedLiquor = "js--done";
 let liquorColor = "#ffffff";
 let glassContent = [];
-let currentOrder = recipes.gin
+let currentOrder = recipes[recipeOptions.pop()]
+let customerPositions = ["7 0 -1", "5 0 0", "3 0 -2", "9 0 -1", "7 0 1", "5 0 -2", "3 0 -3"]
+let currentCustomer;
+let orderBubble;
 
 window.onload = () => {
   const sceneEl = document.querySelector('a-scene');
@@ -29,6 +33,8 @@ window.onload = () => {
   let bulbs = sceneEl.querySelectorAll(".bulb");
 
   camera.object3D.position.set(12, 1.6, -2);
+  currentCustomer = createCustomer(currentOrder);
+  sceneEl.appendChild(currentCustomer);
 
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", function(event){
@@ -87,11 +93,25 @@ window.onload = () => {
         correct = false;
       }
       if (correct) {
-        sceneEl.appendChild(createCustomer())
-        console.log("you did it");
+        let customerGlass = createGlass(0.2, 1.2, 0.25);
+        orderBubble.setAttribute("value", ":)")
+        currentCustomer.appendChild(customerGlass)
       } else {
-        console.log("idiot");
+        orderBubble.setAttribute("value", ">:(")
       }
+      glass.remove();
+      glass = createNewGlass()
+      glass.addEventListener("click", function(event){
+        glass.remove();
+        glass = createGlass(0.3, -0.3, -0.5)
+        camera.appendChild(glass);
+        handStatus = handStatusEnum.HOLDGLASS;
+      })
+      sceneEl.appendChild(glass)
+      currentOrder = recipes[recipeOptions.pop()]
+      currentCustomer.setAttribute("animation", {property: "position", to: customerPositions.pop(), dur: "5000", easing: "easeOutQuad"})
+      currentCustomer = createCustomer(currentOrder)
+      sceneEl.appendChild(currentCustomer)
     }
   })
 
@@ -159,19 +179,31 @@ createLiquor = (height, y, color) => {
   return liquor;
 }
 
-createCustomer = () => {
+createCustomer = (orderText) => {
   let customer = document.createElement('a-entity');
   let head = document.createElement('a-entity');
   let body = document.createElement('a-entity');
+  orderBubble = document.createElement('a-text');
+  orderBubble.setAttribute("value", orderText);
+  orderBubble.object3D.position.set(0, 2.1, 0.5);
+  orderBubble.object3D.rotation.set(THREE.Math.degToRad(0), THREE.Math.degToRad(90), THREE.Math.degToRad(0))
   head.setAttribute("mixin", "customerHead");
   head.setAttribute("position", "0 1.7 0");
   body.setAttribute("mixin", "customerBody");
   body.setAttribute("position", "0 0.7 0");
   customer.appendChild(head);
   customer.appendChild(body);
-  customer.setAttribute("animation__2", {property: "position", to: "10 0 -1.8", dur: "5000", easing: "easeOutQuad"})
+  customer.appendChild(orderBubble)
+  customer.setAttribute("animation", {property: "position", to: "10 0 -1.8", dur: "5000", easing: "easeOutQuad"})
   customer.setAttribute("position", "-1 0 7");
   return customer;
+}
+
+createNewGlass = () => {
+  liquorColor = "#ffffff";
+  glassContent = [];
+  const glass = createGlass(11, 1.35, -1)
+  return glass
 }
 
 function blendColors(colorA, colorB, amount) {
