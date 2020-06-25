@@ -12,13 +12,15 @@ const recipes = {
   gin: ["gin"],
   vodka_tonic: ["vodka", "tonic"]
 }
-let recipeOptions = Object.keys(recipes)
+let recipeOptions = Object.keys(recipes);
 let handStatus = handStatusEnum.EMPTY;
 let selectedLiquor = "js--done";
 let liquorColor = "#ffffff";
 let glassContent = [];
-let currentOrder = recipes[recipeOptions.pop()]
-let customerPositions = ["7 0 -1", "5 0 0", "3 0 -2", "9 0 -1", "7 0 1", "5 0 -2", "3 0 -3"]
+let currentOrder = recipes[getRandomRecipe()]
+let customerPositions = ["3 0 2", "5 0 2", "7 0 3", "7 0 1", "9 0 4","9 0 2", "7 0 -1", "5 0 0", "3 0 -2", "9 0 -1", "7 0 1", "5 0 -2", "3 0 -3"]
+const maxCustomers = customerPositions.length
+let customerAmount = 0;
 let currentCustomer;
 let orderBubble;
 
@@ -107,10 +109,12 @@ window.onload = () => {
         handStatus = handStatusEnum.HOLDGLASS;
       })
       sceneEl.appendChild(glass)
-      currentOrder = recipes[recipeOptions.pop()]
       currentCustomer.setAttribute("animation", {property: "position", to: customerPositions.pop(), dur: "5000", easing: "easeOutQuad"})
-      currentCustomer = createCustomer(currentOrder)
-      sceneEl.appendChild(currentCustomer)
+      if (customerAmount < maxCustomers) {
+        currentOrder = recipes[getRandomRecipe()]
+        currentCustomer = createCustomer(currentOrder)
+        sceneEl.appendChild(currentCustomer)
+      }
     }
   })
 
@@ -195,6 +199,7 @@ createCustomer = (orderText) => {
   customer.appendChild(orderBubble)
   customer.setAttribute("animation", {property: "position", to: "10 0 -1.8", dur: "5000", easing: "easeOutQuad"})
   customer.setAttribute("position", "-1 0 7");
+  customerAmount++;
   return customer;
 }
 
@@ -212,4 +217,9 @@ function blendColors(colorA, colorB, amount) {
   const g = Math.round(gA + (gB - gA) * amount).toString(16).padStart(2, '0');
   const b = Math.round(bA + (bB - bA) * amount).toString(16).padStart(2, '0');
   return '#' + r + g + b;
+}
+
+function getRandomRecipe() {
+  const result = recipeOptions[Math.floor(Math.random()*recipeOptions.length)];
+  return result;
 }
