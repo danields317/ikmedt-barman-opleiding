@@ -115,7 +115,7 @@ window.onload = () => {
         currentCustomer = createCustomer(currentOrder)
         sceneEl.appendChild(currentCustomer)
       } else {
-        createEndScreen()
+        sceneEl.appendChild(createEndScreen())
       }
     }
   })
