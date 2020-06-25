@@ -10,7 +10,8 @@ const recipes = {
   martini: ["martini"],
   vodka_martini: ["vodka", "martini"],
   gin: ["gin"],
-  vodka_tonic: ["vodka", "tonic"]
+  vodka_tonic: ["vodka", "tonic"],
+  beer: ["beer", "beer", "beer"]
 }
 let recipeOptions = Object.keys(recipes)
 let handStatus = handStatusEnum.EMPTY;
@@ -31,9 +32,12 @@ window.onload = () => {
   let taps = sceneEl.querySelectorAll(".tap");
   let glass = sceneEl.querySelector('#js--glass');
   let bulbs = sceneEl.querySelectorAll(".bulb");
+  let beertap = document.querySelector("#beertap");
+  let beertapping = document.querySelector("#beertapping");
 
   currentCustomer = createCustomer(currentOrder);
   sceneEl.appendChild(currentCustomer);
+
 
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", function(event){
@@ -62,12 +66,32 @@ window.onload = () => {
             glassContent.push("tonic")
             newliquorColor = "#ffff75"
             break;
+          case "js--beer":
+            // currentCustomer.setAttribute("animation", {property: "position", to: customerPositions.pop(), dur: "5000", easing: "easeOutQuad"})
+            beertap.setAttribute("visible",false);
+            beertapping.setAttribute("visible",true);
+            if(glassContent.length == 2) {
+              glassContent.push("beer");
+              newliquorColor = "#ffffff"
+              setTimeout(() => {
+                beertap.setAttribute("visible",true);
+                beertapping.setAttribute("visible",false);
+              },1000)
+              break;
+            }
+            glassContent.push("beer")
+            newliquorColor = "#ffc533"
+            setTimeout(() => {
+              beertap.setAttribute("visible",true);
+              beertapping.setAttribute("visible",false);
+            },1000)
+            break;
           default:
             return;
             break;
         }
-        const size = (0.08 * glassContent.length).toString();
-        const offsetY = (-0.1 + (0.05 * (glassContent.length - 1))).toString()
+        const size = 0.08
+        const offsetY = (-0.1 + (0.08 * (glassContent.length - 1))).toString()
         const blend = blendColors(liquorColor, newliquorColor, 0.5)
         glass.appendChild(createLiquor(size, offsetY, blend))
         liquorColor = blend;
