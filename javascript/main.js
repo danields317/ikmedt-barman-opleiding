@@ -32,7 +32,6 @@ window.onload = () => {
   let glass = sceneEl.querySelector('#js--glass');
   let bulbs = sceneEl.querySelectorAll(".bulb");
 
-  camera.object3D.position.set(12, 1.6, -2);
   currentCustomer = createCustomer(currentOrder);
   sceneEl.appendChild(currentCustomer);
 
