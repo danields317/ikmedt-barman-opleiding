@@ -23,6 +23,7 @@ const maxCustomers = customerPositions.length
 let customerAmount = 0;
 let currentCustomer;
 let orderBubble;
+let score = 0;
 
 window.onload = () => {
   const sceneEl = document.querySelector('a-scene');
@@ -95,6 +96,7 @@ window.onload = () => {
         let customerGlass = createGlass(0.2, 1.2, 0.25);
         orderBubble.setAttribute("value", ":)")
         currentCustomer.appendChild(customerGlass)
+        score++;
       } else {
         orderBubble.setAttribute("value", ">:(")
       }
@@ -112,6 +114,8 @@ window.onload = () => {
         currentOrder = recipes[getRandomRecipe()]
         currentCustomer = createCustomer(currentOrder)
         sceneEl.appendChild(currentCustomer)
+      } else {
+        createEndScreen()
       }
     }
   })
@@ -206,6 +210,23 @@ createNewGlass = () => {
   glassContent = [];
   const glass = createGlass(11, 1.35, -1)
   return glass
+}
+
+createEndScreen = () => {
+  let endScreen = document.createElement("a-plane");
+  endScreen.object3D.position.set(11, 2.35, -2);
+  endScreen.object3D.rotation.set(THREE.Math.degToRad(0), THREE.Math.degToRad(90), THREE.Math.degToRad(0))
+  endScreen.setAttribute("color", "black");
+  endScreen.setAttribute("width", "2");
+  endScreen.setAttribute("height", "0.5")
+  let scoreBox = document.createElement("a-text");
+  let endScore = "Score: "
+  endScore = endScore.concat(score, "/", maxCustomers.toString());
+  scoreBox.setAttribute("class", "clickable")
+  scoreBox.setAttribute("value", endScore);
+  scoreBox.object3D.position.set(-0.6, 0, 0);
+  endScreen.appendChild(scoreBox);
+  return endScreen;
 }
 
 function blendColors(colorA, colorB, amount) {
