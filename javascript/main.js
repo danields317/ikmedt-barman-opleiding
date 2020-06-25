@@ -46,7 +46,7 @@ window.onload = () => {
   for (let i = 0; i < taps.length; i++) {
     taps[i].addEventListener("click", function(event){
       let newliquorColor = "white";
-      if (glassContent.length < 3) {
+      if (glassContent.length < 3 && taps[i].parentNode.getAttribute("id") == selectedLiquor) {
         switch (selectedLiquor) {
           case "js--gin":
             glassContent.push("gin");
@@ -79,8 +79,6 @@ window.onload = () => {
 
   bell.addEventListener("click", function(event){
     if (selectedLiquor == "js--done") {
-      console.log(glassContent);
-      console.log(currentOrder);
       let correct = true;
       for (var i = 0; i < glassContent.length; i++) {
         if (currentOrder.includes(glassContent[i])) {
