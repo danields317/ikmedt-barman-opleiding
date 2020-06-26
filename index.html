@@ -9,8 +9,8 @@
   <body>
     <a-scene stats>
       <a-assets>
-        <a-asset-item id='kruk' src='assets/kruk.obj'></a-asset-item>
-        <a-asset-item id='krukmaterial' src='assets/kruk.mtl'></a-asset-item>
+        <a-asset-item id='kruk' src='https://cdn.jsdelivr.net/gh/Coole-Guus/ikmedt-barman-opleiding@latest/assets/kruk.obj'></a-asset-item>
+        <a-asset-item id='krukmaterial' src='https://cdn.jsdelivr.net/gh/Coole-Guus/ikmedt-barman-opleiding@latest/assets/kruk.mtl'></a-asset-item>
         <a-mixin id="light" light="type:point; intensity:1; distance: 15; decay: 1;"></a-mixin>
         <a-mixin id="red" light="color: #ff6e6e"></a-mixin>
         <a-mixin id="white" light="color: #ffffff"></a-mixin>
@@ -85,7 +85,10 @@
         </a-sphere>
       </a-entity>
 
-      <a-obj-model src='#kruk' mtl='#krukmaterial'></a-obj-model>
+      <a-obj-model id='barkruk' class="js--barkruk clickable" src='#kruk' mtl='#krukmaterial' scale='0.05 0.05 0.05' position='12.35 0.35 -1.5'></a-obj-model>
+      <a-obj-model id='barkruk' class="js--barkruk clickable" src='#kruk' mtl='#krukmaterial' scale='0.05 0.05 0.05' position='12.35 0.35 0'></a-obj-model>
+      <a-obj-model id='barkruk' class="js--barkruk clickable" src='#kruk' mtl='#krukmaterial' scale='0.05 0.05 0.05' position='12.35 0.35 -3'></a-obj-model>
+
 
       <a-entity id="bar" position="11 0.6 -1">
         <a-box material="color: #402918; roughness: 1; metalness: 0.15" height="1.2" width="1" depth="7"></a-box>
@@ -157,8 +160,8 @@
       <a-entity id="js--tonic"class="js--coaster clickable" mixin="coaster" position="11 1.3 -3.5"></a-entity>
 
 
-      <a-entity id="rig" position="12.5 0 -2">
-        <a-camera>
+      <a-entity id="rig" position="12.35 0 -1.5">
+        <a-camera wasd-controls-enabled="false">
           <a-cursor raycaster="objects: .clickable"></a-cursor>
         </a-camera>
       </a-entity>
