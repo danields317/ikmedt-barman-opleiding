@@ -28,12 +28,14 @@ window.onload = () => {
   const camera = document.querySelector('a-camera');
   const buttons = sceneEl.querySelectorAll(".button");
   const coasters = sceneEl.querySelectorAll(".js--coaster");
+  const barkruk = sceneEl.querySelectorAll('.js--barkruk');
   const bell = sceneEl.querySelector("#bell");
   let taps = sceneEl.querySelectorAll(".tap");
   let glass = sceneEl.querySelector('#js--glass');
   let bulbs = sceneEl.querySelectorAll(".bulb");
   let beertap = document.querySelector("#beertap");
   let beertapping = document.querySelector("#beertapping");
+  let rig = sceneEl.querySelector('#rig');
 
   currentCustomer = createCustomer(currentOrder);
   sceneEl.appendChild(currentCustomer);
@@ -164,6 +166,17 @@ window.onload = () => {
          })
         sceneEl.appendChild(glass);
       }
+    })
+  }
+
+  //click kruk
+  for (let i = 0; i < barkruk.length; i++) {
+    barkruk[i].addEventListener("click", function(event){
+        console.log("x: ", rig.getAttribute('position').x);
+        let x = barkruk[i].getAttribute("position").x
+        let y = barkruk[i].getAttribute("position").y
+        let z = barkruk[i].getAttribute("position").z
+        rig.setAttribute('position', {x: x, y: y - 0.35, z: z})
     })
   }
 
