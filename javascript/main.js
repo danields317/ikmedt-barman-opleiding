@@ -10,8 +10,7 @@ const recipes = {
   martini: ["martini"],
   vodka_martini: ["vodka", "martini"],
   gin: ["gin"],
-  vodka_tonic: ["vodka", "tonic"],
-  beer: ["beer", "beer", "beer"]
+  vodka_tonic: ["vodka", "tonic"]
 }
 let recipeOptions = Object.keys(recipes);
 let handStatus = handStatusEnum.EMPTY;
@@ -31,18 +30,13 @@ window.onload = () => {
   const camera = document.querySelector('a-camera');
   const buttons = sceneEl.querySelectorAll(".button");
   const coasters = sceneEl.querySelectorAll(".js--coaster");
-  const barkruk = sceneEl.querySelectorAll('.js--barkruk');
   const bell = sceneEl.querySelector("#bell");
   let taps = sceneEl.querySelectorAll(".tap");
   let glass = sceneEl.querySelector('#js--glass');
   let bulbs = sceneEl.querySelectorAll(".bulb");
-  let beertap = document.querySelector("#beertap");
-  let beertapping = document.querySelector("#beertapping");
-  let rig = sceneEl.querySelector('#rig');
 
   currentCustomer = createCustomer(currentOrder);
   sceneEl.appendChild(currentCustomer);
-
 
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", function(event){
@@ -70,26 +64,6 @@ window.onload = () => {
           case "js--tonic":
             glassContent.push("tonic")
             newliquorColor = "#ffff75"
-            break;
-          case "js--beer":
-            // currentCustomer.setAttribute("animation", {property: "position", to: customerPositions.pop(), dur: "5000", easing: "easeOutQuad"})
-            beertap.setAttribute("visible",false);
-            beertapping.setAttribute("visible",true);
-            if(glassContent.length == 2) {
-              glassContent.push("beer");
-              newliquorColor = "#ffffff"
-              setTimeout(() => {
-                beertap.setAttribute("visible",true);
-                beertapping.setAttribute("visible",false);
-              },1000)
-              break;
-            }
-            glassContent.push("beer")
-            newliquorColor = "#ffc533"
-            setTimeout(() => {
-              beertap.setAttribute("visible",true);
-              beertapping.setAttribute("visible",false);
-            },1000)
             break;
           default:
             return;
@@ -171,17 +145,6 @@ window.onload = () => {
          })
         sceneEl.appendChild(glass);
       }
-    })
-  }
-
-  //click kruk
-  for (let i = 0; i < barkruk.length; i++) {
-    barkruk[i].addEventListener("click", function(event){
-        console.log("x: ", rig.getAttribute('position').x);
-        let x = barkruk[i].getAttribute("position").x
-        let y = barkruk[i].getAttribute("position").y
-        let z = barkruk[i].getAttribute("position").z
-        rig.setAttribute('position', {x: x, y: y - 0.35, z: z})
     })
   }
 
