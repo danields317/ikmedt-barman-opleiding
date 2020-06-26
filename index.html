@@ -23,7 +23,11 @@
         <img id="absolut" src="Absolut_Vodka_Logo.png">
         <img id="martini" src="Martini_logo.png">
         <img id="tonic" src="Kinley_Tonic_Wather_Logotype.png">
+        <a-assets-item id="bell.obj" src="bell.obj"></a-assets-item>
+        <a-assets-item id="bell.mtl" src="bell.mtl"></a-assets-item>
+        <audio id="pling" src="Bellpling.mp3" preload="auto"></audio>
       </a-assets>
+
       <!--Ceiling-->
       <a-plane material="color: #FFB04B; roughness: 0.8; metalness: 0.15" height="15" width="15" rotation="90 0 0" position="7 2.5 0"></a-plane>
       <!--Floor-->
@@ -137,7 +141,8 @@
         </a-box>
       </a-entity>
 
-      <a-box id="bell" class="clickable" color="green" width="0.1" height="0.1" depth="0.1" position="10.75 1.25 -1.5"></a-box>
+      <a-obj-model id="bell" class="clickable" src="#bell.obj" mtl="#bell.mtl"  sound="src: #pling"
+      position="10.75 1.2 -1.5" scale="0.1 0.1 0.1"></a-obj-model>
 
       <a-entity id="js--glass" position="11 1.35 -1">
         <a-cylinder class="clickable" mixin="glass" height="0.3" radius="0.1" open-ended="true"></a-cylinder>

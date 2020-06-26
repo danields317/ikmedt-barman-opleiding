@@ -15,7 +15,6 @@ const recipes = {
 let recipeOptions = Object.keys(recipes);
 let handStatus = handStatusEnum.EMPTY;
 let selectedLiquor = "js--done";
-let liquorColor = "#ffffff";
 let glassContent = [];
 let currentOrder = recipes[getRandomRecipe()]
 let customerPositions = ["3 0 2", "5 0 2", "7 0 3", "7 0 1", "9 0 4","9 0 2", "7 0 -1", "5 0 0", "3 0 -2", "9 0 -1", "7 0 1", "5 0 -2", "3 0 -3"]
@@ -24,6 +23,7 @@ let customerAmount = 0;
 let currentCustomer;
 let orderBubble;
 let score = 0;
+let liquorColor;
 
 window.onload = () => {
   const sceneEl = document.querySelector('a-scene');
@@ -71,15 +71,15 @@ window.onload = () => {
         }
         const size = (0.08 * glassContent.length).toString();
         const offsetY = (-0.1 + (0.05 * (glassContent.length - 1))).toString()
-        const blend = blendColors(liquorColor, newliquorColor, 0.5)
-        glass.appendChild(createLiquor(size, offsetY, blend))
-        liquorColor = blend;
+        glass.appendChild(createLiquor(size, offsetY, newliquorColor));
+        liquorColor = newliquorColor;
       }
     })
   }
 
   bell.addEventListener("click", function(event){
     if (selectedLiquor == "js--done") {
+      bell.components.sound.playSound();
       let correct = true;
       for (var i = 0; i < glassContent.length; i++) {
         if (currentOrder.includes(glassContent[i])) {
@@ -227,15 +227,6 @@ createEndScreen = () => {
   scoreBox.object3D.position.set(-0.6, 0, 0);
   endScreen.appendChild(scoreBox);
   return endScreen;
-}
-
-function blendColors(colorA, colorB, amount) {
-  const [rA, gA, bA] = colorA.match(/\w\w/g).map((c) => parseInt(c, 16));
-  const [rB, gB, bB] = colorB.match(/\w\w/g).map((c) => parseInt(c, 16));
-  const r = Math.round(rA + (rB - rA) * amount).toString(16).padStart(2, '0');
-  const g = Math.round(gA + (gB - gA) * amount).toString(16).padStart(2, '0');
-  const b = Math.round(bA + (bB - bA) * amount).toString(16).padStart(2, '0');
-  return '#' + r + g + b;
 }
 
 function getRandomRecipe() {
