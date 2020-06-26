@@ -13,15 +13,18 @@ const recipes = {
   vodka_tonic: ["vodka", "tonic"],
   beer: ["beer", "beer", "beer"]
 }
-let recipeOptions = Object.keys(recipes)
+let recipeOptions = Object.keys(recipes);
 let handStatus = handStatusEnum.EMPTY;
 let selectedLiquor = "js--done";
-let liquorColor = "#ffffff";
 let glassContent = [];
-let currentOrder = recipes[recipeOptions.pop()]
-let customerPositions = ["7 0 -1", "5 0 0", "3 0 -2", "9 0 -1", "7 0 1", "5 0 -2", "3 0 -3"]
+let currentOrder = recipes[getRandomRecipe()]
+let customerPositions = ["3 0 2", "5 0 2", "7 0 3", "7 0 1", "9 0 4","9 0 2", "7 0 -1", "5 0 0", "3 0 -2", "9 0 -1", "7 0 1", "5 0 -2", "3 0 -3"]
+const maxCustomers = customerPositions.length
+let customerAmount = 0;
 let currentCustomer;
 let orderBubble;
+let score = 0;
+let liquorColor;
 
 window.onload = () => {
   const sceneEl = document.querySelector('a-scene');
@@ -50,7 +53,7 @@ window.onload = () => {
   for (let i = 0; i < taps.length; i++) {
     taps[i].addEventListener("click", function(event){
       let newliquorColor = "white";
-      if (glassContent.length < 3) {
+      if (glassContent.length < 3 && taps[i].parentNode.getAttribute("id") == selectedLiquor) {
         switch (selectedLiquor) {
           case "js--gin":
             glassContent.push("gin");
@@ -92,19 +95,16 @@ window.onload = () => {
             return;
             break;
         }
-        const size = 0.08
-        const offsetY = (-0.1 + (0.08 * (glassContent.length - 1))).toString()
-        const blend = blendColors(liquorColor, newliquorColor, 0.5)
-        glass.appendChild(createLiquor(size, offsetY, blend))
-        liquorColor = blend;
+        const size = (0.08 * glassContent.length).toString();
+        const offsetY = (-0.1 + (0.05 * (glassContent.length - 1))).toString()
+        glass.appendChild(createLiquor(size, offsetY, newliquorColor));
+        liquorColor = newliquorColor;
       }
     })
   }
 
   bell.addEventListener("click", function(event){
     if (selectedLiquor == "js--done") {
-      console.log(glassContent);
-      console.log(currentOrder);
       let correct = true;
       for (var i = 0; i < glassContent.length; i++) {
         if (currentOrder.includes(glassContent[i])) {
@@ -121,6 +121,7 @@ window.onload = () => {
         let customerGlass = createGlass(0.2, 1.2, 0.25);
         orderBubble.setAttribute("value", ":)")
         currentCustomer.appendChild(customerGlass)
+        score++;
       } else {
         orderBubble.setAttribute("value", ">:(")
       }
@@ -133,10 +134,14 @@ window.onload = () => {
         handStatus = handStatusEnum.HOLDGLASS;
       })
       sceneEl.appendChild(glass)
-      currentOrder = recipes[recipeOptions.pop()]
       currentCustomer.setAttribute("animation", {property: "position", to: customerPositions.pop(), dur: "5000", easing: "easeOutQuad"})
-      currentCustomer = createCustomer(currentOrder)
-      sceneEl.appendChild(currentCustomer)
+      if (customerAmount < maxCustomers) {
+        currentOrder = recipes[getRandomRecipe()]
+        currentCustomer = createCustomer(currentOrder)
+        sceneEl.appendChild(currentCustomer)
+      } else {
+        sceneEl.appendChild(createEndScreen())
+      }
     }
   })
 
@@ -232,6 +237,7 @@ createCustomer = (orderText) => {
   customer.appendChild(orderBubble)
   customer.setAttribute("animation", {property: "position", to: "10 0 -1.8", dur: "5000", easing: "easeOutQuad"})
   customer.setAttribute("position", "-1 0 7");
+  customerAmount++;
   return customer;
 }
 
@@ -242,11 +248,24 @@ createNewGlass = () => {
   return glass
 }
 
-function blendColors(colorA, colorB, amount) {
-  const [rA, gA, bA] = colorA.match(/\w\w/g).map((c) => parseInt(c, 16));
-  const [rB, gB, bB] = colorB.match(/\w\w/g).map((c) => parseInt(c, 16));
-  const r = Math.round(rA + (rB - rA) * amount).toString(16).padStart(2, '0');
-  const g = Math.round(gA + (gB - gA) * amount).toString(16).padStart(2, '0');
-  const b = Math.round(bA + (bB - bA) * amount).toString(16).padStart(2, '0');
-  return '#' + r + g + b;
+createEndScreen = () => {
+  let endScreen = document.createElement("a-plane");
+  endScreen.object3D.position.set(11, 2.35, -2);
+  endScreen.object3D.rotation.set(THREE.Math.degToRad(0), THREE.Math.degToRad(90), THREE.Math.degToRad(0))
+  endScreen.setAttribute("color", "black");
+  endScreen.setAttribute("width", "2");
+  endScreen.setAttribute("height", "0.5")
+  let scoreBox = document.createElement("a-text");
+  let endScore = "Score: "
+  endScore = endScore.concat(score, "/", maxCustomers.toString());
+  scoreBox.setAttribute("class", "clickable")
+  scoreBox.setAttribute("value", endScore);
+  scoreBox.object3D.position.set(-0.6, 0, 0);
+  endScreen.appendChild(scoreBox);
+  return endScreen;
+}
+
+function getRandomRecipe() {
+  const result = recipeOptions[Math.floor(Math.random()*recipeOptions.length)];
+  return result;
 }
