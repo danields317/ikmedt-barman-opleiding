@@ -79,7 +79,6 @@ window.onload = () => {
 
   bell.addEventListener("click", function(event){
     if (selectedLiquor == "js--done") {
-      bell.components.sound.playSound();
       let correct = true;
       for (var i = 0; i < glassContent.length; i++) {
         if (currentOrder.includes(glassContent[i])) {
