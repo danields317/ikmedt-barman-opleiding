@@ -9,6 +9,8 @@
   <body>
     <a-scene stats>
       <a-assets>
+        <a-asset-item id='kruk' src='assets/kruk.obj'></a-asset-item>
+        <a-asset-item id='krukmaterial' src='assets/kruk.mtl'></a-asset-item>
         <a-mixin id="light" light="type:point; intensity:1; distance: 15; decay: 1;"></a-mixin>
         <a-mixin id="red" light="color: #ff6e6e"></a-mixin>
         <a-mixin id="white" light="color: #ffffff"></a-mixin>
@@ -82,6 +84,8 @@
           <a-entity class="bulb" mixin="white light" position="0 -0.5 0"></a-entity>
         </a-sphere>
       </a-entity>
+
+      <a-obj-model src='#kruk' mtl='#krukmaterial'></a-obj-model>
 
       <a-entity id="bar" position="11 0.6 -1">
         <a-box material="color: #402918; roughness: 1; metalness: 0.15" height="1.2" width="1" depth="7"></a-box>
