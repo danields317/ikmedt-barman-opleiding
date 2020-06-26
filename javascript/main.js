@@ -25,6 +25,7 @@ let currentCustomer;
 let orderBubble;
 let score = 0;
 let liquorColor;
+let finished = false;
 
 window.onload = () => {
   const sceneEl = document.querySelector('a-scene');
@@ -105,7 +106,7 @@ window.onload = () => {
   }
 
   bell.addEventListener("click", function(event){
-    if (selectedLiquor == "js--done") {
+    if (selectedLiquor == "js--done" && !finished) {
       let correct = true;
       for (var i = 0; i < glassContent.length; i++) {
         if (currentOrder.includes(glassContent[i])) {
@@ -250,6 +251,7 @@ createNewGlass = () => {
 }
 
 createEndScreen = () => {
+  finished = true;
   let endScreen = document.createElement("a-plane");
   endScreen.object3D.position.set(11, 2.35, -2);
   endScreen.object3D.rotation.set(THREE.Math.degToRad(0), THREE.Math.degToRad(90), THREE.Math.degToRad(0))
